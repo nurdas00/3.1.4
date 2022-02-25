@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello</title>
+</head>
+<body>
+<div>
+    <th:block th:each="msg : ${messages}">
+        <h1 th:text="${msg}"></h1>
+    </th:block>
+    <br/>
+    <a th:href="@{/logout}">Logout</a>
+
+    <button class="usrtbl">CLick!</button>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+<script>
+    $(document).ready(function() {
+
+        $(".usrtbl").click(function() {
+            console.log("")
+            clear_modal(); //Очистка можно так же циклом, принцип показал ниже
+            var col_arr = []; //Иницализация масива
+            var rowData = $(this).children(); //Получаем кучу <td> из тега <tr>
+
+            for(var i = 0; i < $(this).children().length;i++){
+                //Засовываем значения в масив для более удобной работы с ними
+                col_arr.push($(rowData[i]).text());
+            }
+
+            console.log(col_arr); //Выводит значения стобцов
+
+            for(var i = 0; i <= col_arr.length; i++){
+                //Вместо имени можешь использовать data тэг и радоваться жизни
+                $('input[name=col_'+(Number(i)+1)+']').val(col_arr[i]);
+            }
+
+            /* // Или так если не динамическая таблица
+            $('input[name=col_1]').val(col_arr[0]);
+            $('input[name=col_2]').val(col_arr[1]);
+            $('input[name=col_3]').val(col_arr[2]);
+            */
+            $("#idModalEditUser").modal('show');
+        });
+
+
+        function clear_modal() { // Очистка модального окна
+            $('input[name=col_1]').val("");
+            $('input[name=col_2]').val("");
+            $('input[name=col_3]').val("");
+        }
+
+    });
+
+</script>
+</body>
+</html>
